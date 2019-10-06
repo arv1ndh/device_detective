@@ -1,3 +1,5 @@
+#first do pip install pip install user-agents
+
 from user_agents import parse
 
 # iPhone's user agent string

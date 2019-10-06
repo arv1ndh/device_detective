@@ -1,3 +1,5 @@
+#first do pip install ua-parser
+
 from ua_parser import user_agent_parser
 import pprint
 pp = pprint.PrettyPrinter(indent=4)

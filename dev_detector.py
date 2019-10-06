@@ -1,3 +1,5 @@
+#first do pip install device-detector
+
 from device_detector import DeviceDetector
 
 ua = 'Mozilla/5.0 (Linux; Android 4.3; C5502 Build/10.4.1.B.0.101) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36'
