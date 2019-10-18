@@ -5,9 +5,8 @@ require('dotenv').config()
 
 var my_URI = process.env.MONGODB_URI;
 
-console.log('mongoose file')
 //connect to database
-mongoose.connect(my_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
+mongoose.connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
 .then(()=> {console.log("MongoDB Connected...")})
 .catch((e) => console.log('There is an error here: '+e))
 
