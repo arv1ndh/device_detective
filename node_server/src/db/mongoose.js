@@ -9,6 +9,6 @@ console.log('mongoose file')
 //connect to database
 mongoose.connect(my_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
 .then(()=> {console.log("MongoDB Connected...")})
-.catch((e) => console.log('There is an error here: 'e))
+.catch((e) => console.log('There is an error here: '+e))
 
 
