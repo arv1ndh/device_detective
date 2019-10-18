@@ -30,7 +30,7 @@ app.post('/devices', async (req, res) =>{
 
 //fetch all
 app.get('/devices', async (req, res) =>{
-
+    console.log('made it into the get request')
     try {
         const devices = await Device.find({})
         res.send(devices)
