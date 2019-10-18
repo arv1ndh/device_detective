@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 require('dotenv').config()
 
 
-var my_URI = process.env.MONGODB_URI;
+//var my_URI = process.env.MONGODB_URI;
 
 //connect to database
 mongoose.connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
