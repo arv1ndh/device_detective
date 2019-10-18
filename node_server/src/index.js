@@ -9,7 +9,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(express.json())
-
+console.log('index file')
 app.post('/devices', async (req, res) =>{
     const device = new Device(req.body)
 
