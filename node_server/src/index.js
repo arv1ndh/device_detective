@@ -1,3 +1,4 @@
+console.log('index file')
 // rm -i -rf .git (how to remove git. Must be done in the root folder of the project to remove the tracking of the project)
 const express = require('express')
 
