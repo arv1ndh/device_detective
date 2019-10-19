@@ -35,7 +35,7 @@ app.get('/', async (req, res) =>{
         res.status(500).send()
         console.log('error')
     }
-
+})
 //fetch all
 app.get('/devices', async (req, res) =>{
     console.log('made it into the get request')
