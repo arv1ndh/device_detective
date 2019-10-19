@@ -13,18 +13,14 @@ app.post('/devices', async (req, res) =>{
     const device = new Device(req.body)
 
     try{
+        console.log('Attempting add a device to NetworkDevices')
         await device.save()
+        console.log('Successfully added device')
         res.status(201).send(device)
-    } catch (e){
-        res.status(400).send(e)
+    } catch (error){
+        console.log('Error occured: ' + error)
+        res.status(400).send(error)
     }
-
-
-    // device.save().then(() => {
-    //     res.status(201).send(device)
-    // }).catch((e) => {
-    //     res.status(400).send(e)
-    // })
 })
 
 
@@ -49,6 +45,7 @@ app.get('/devices/:type', async (req, res) =>{
     try {
         console.log('Attempting search for devices of type: '+ _type)
         const devices = await Device.find({type: _type})
+        console.log('Successfully searched for all devices')
         if(devices.length == 0){
             console.log('There were no devices of type "'+_type+'".')
             return res.status(404).send('There were no devices of type "'+_type+'".')
