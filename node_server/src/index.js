@@ -27,22 +27,16 @@ app.post('/devices', async (req, res) =>{
     // })
 })
 
-app.get('/', async (req, res) =>{
-    console.log('made it into the get request')
-    try {
-        res.send('./src/index.html')
-    } catch (error) {
-        res.status(500).send()
-        console.log('error')
-    }
-})
+
 //fetch all
 app.get('/devices', async (req, res) =>{
-    console.log('made it into the get request')
     try {
+        console.log('Attempting search for all devices')
         const devices = await Device.find({})
+        console.log('Successfully searched for all devices')
         res.send(devices)
     } catch (error) {
+        console.log('Error occured')
         res.status(500).send()
     }
 
