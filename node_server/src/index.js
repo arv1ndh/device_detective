@@ -1,4 +1,3 @@
-console.log('index file')
 // rm -i -rf .git (how to remove git. Must be done in the root folder of the project to remove the tracking of the project)
 const express = require('express')
 
@@ -10,7 +9,6 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(express.json())
-console.log('index file')
 app.post('/devices', async (req, res) =>{
     const device = new Device(req.body)
 
@@ -28,6 +26,15 @@ app.post('/devices', async (req, res) =>{
     //     res.status(400).send(e)
     // })
 })
+
+app.get('/', async (req, res) =>{
+    console.log('made it into the get request')
+    try {
+        res.send('./src/index.html')
+    } catch (error) {
+        res.status(500).send()
+        console.log('error')
+    }
 
 //fetch all
 app.get('/devices', async (req, res) =>{
