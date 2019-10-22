@@ -1,3 +1,4 @@
 request_interceptor/__pycache__/*
+request_interceptor/conf.json
 pipeline_prototype/__pycache__/*
 ua_parsers/__pycache__/*
