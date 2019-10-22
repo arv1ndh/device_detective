@@ -4,7 +4,7 @@ import string
 import time
 
 sqs = boto3.client('sqs')
-queue_url = 'https://sqs.us-west-1.amazonaws.com/809875841865/ua_headers.fifo'
+queue_url = 'https://sqs.us-west-1.amazonaws.com/809875841865/ua_headers'
 
 ua_strings = ['Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36', \
 'Mozilla/5.0 (Linux; Android 4.3; C5502 Build/10.4.1.B.0.101) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36', \
@@ -14,8 +14,6 @@ ua_strings = ['Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36
 
 while True:
     ua = ua_strings[random.randint(0, len(ua_strings)-1)]
-    ID = ''.join([random.choice(string.ascii_letters + string.digits + string.punctuation) for n in range(128)])
-
-    sent_ua = sqs.send_message(QueueUrl=queue_url, MessageBody=ua, MessageGroupId=ID)
+    sent_ua = sqs.send_message(QueueUrl=queue_url, MessageBody=ua)
     print("User-agent string sent to AWS queue:\n", ua)
     time.sleep(1)
