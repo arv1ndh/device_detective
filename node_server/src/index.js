@@ -57,7 +57,7 @@ app.get('/devices/:type', async (req, res) =>{
     }
 })
 
-
+//check to see if there is a way to trigger a mobile app
 app.listen(port, () => {
     console.log("Server is up on port " + port)
 })
