@@ -1,13 +1,19 @@
-from ua_parser import user_agent_parser
+from device_detector import DeviceDetector
 import boto3
 import pymongo
 from pymongo import MongoClient
 import hashlib
+import time
 
 sqs = boto3.client('sqs')
-queue_url = 'https://sqs.us-west-1.amazonaws.com/809875841865/ua_headers.fifo'
+f = open("sqs_url.txt", "r")
+queue_url = f.read()
+f.close()
 
-mon_client = MongoClient("mongodb+srv://chadbloxham:Lakers24gokobe@cluster0-kdfv3.mongodb.net/test?retryWrites=true&w=majority")
+f = open("mongo_url.txt", "r")
+mongo_url = f.read()
+f.close()
+mon_client = MongoClient(mongo_url)
 db = mon_client.user_agents
 posts = db.posts
 
@@ -22,8 +28,8 @@ while True:
         if h.hexdigest() not in hash_db:
             hash_db.append(h.hexdigest())
             print("User-agent string received from AWS queue:\n", ua)
-            parsed_string = user_agent_parser.Parse(ua)
-            posts.insert_one(parsed_string)
+            parsed_string = DeviceDetector(ua).parse()
+            posts.insert_one(parsed_string.all_details)
             print("Parsed UA information sent to Mongo database.")
         sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
     except:
