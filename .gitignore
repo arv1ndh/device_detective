@@ -1,3 +1,6 @@
 request_interceptor/__pycache__/*
 pipeline_prototype/__pycache__/*
+pipeline_prototype/sqs_url.txt
 ua_parsers/__pycache__/*
+aws_lambda/__pycache__/*
+aws_lambda/mongo_url.txt

@@ -1,10 +1,11 @@
 import boto3
 import random
-import string
 import time
 
 sqs = boto3.client('sqs')
-queue_url = 'https://sqs.us-west-1.amazonaws.com/809875841865/ua_headers'
+f = open("sqs_url.txt", "r")
+queue_url = f.read()
+f.close()
 
 ua_strings = ['Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36', \
 'Mozilla/5.0 (Linux; Android 4.3; C5502 Build/10.4.1.B.0.101) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36', \
