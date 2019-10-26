@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from urllib.request import urlopen, Request
+import json
 
 CUSTOM_HEADER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"}
 
@@ -23,9 +24,9 @@ class UA_Scraper(HTMLParser):
         if self.entered_device_block and 'a' == tag:
             link = dict(attrs)["href"]
             if self.interested_list is None:
-                self.links.append(link)
+                self.result.append(link)
             elif link.split('/')[-2] in self.interested_list:
-                self.links.append(link)
+                self.result.append(link)
             self.entered_device_block = False
 
         if 'table' == tag and ("class", UA_CONTENTS_IDENTIFIER):
@@ -50,6 +51,9 @@ def content_fetcher(url):
     url_object = urlopen(Request(url, headers=CUSTOM_HEADER))
     return str(url_object.read())
 
+def link_splitter(link):
+    return (link.split('/')[4], link.split('/')[5], link.split('/')[6])
+
 def main():
     ua_url = "https://www.handsetdetection.com/device-detection-database/"
     variety_list = ["browsers", "platforms"]
@@ -57,24 +61,34 @@ def main():
     ver_links = [ 'https://www.handsetdetection.com/device-detection-database/platforms/macos/10-13/']
 
     for item in variety_list:
+        print("Parent: working on ---> ", item)
         useragent_warehouse[item] = {}
         parent_url = ua_url + item
         html_page = content_fetcher(parent_url)
         UAS_object = UA_Scraper(UA_COLL[item])
         UAS_object.feed(html_page)
         categ_links += UAS_object.result
-    #for link in categ_links:
-    #    html_page = content_fetcher(link)
-    #    Ver_object = UA_Scraper()
-    #    Ver_object.feed(html_page)
-    #    ver_links += Ver_object.result
+
+    for link in categ_links:
+        print("Category: working_on ---> ", link)
+        html_page = content_fetcher(link)
+        Ver_object = UA_Scraper()
+        Ver_object.feed(html_page)
+        ver_links += Ver_object.result
+        parent_val, categ_val, _ = link_splitter(link)
+        useragent_warehouse[parent_val][categ_val] = {}
     
     for ver_link in ver_links:
+        print("Version: working on ---> ", ver_link)
         html_page = content_fetcher(ver_link)
         Content_object = UA_Scraper()
         Content_object.feed(html_page)
-        print(Content_object.result)
-        return
+        parent_val, categ_val, ver_val = link_splitter(ver_link)
+        useragent_warehouse[parent_val][categ_val][ver_val] = Content_object.result
+
+    print("<--- About to dump json --->")
+    with open("user_agents.json", 'w') as json_outfile:
+        json.dump(useragent_warehouse, json_outfile)
 
 
 if __name__ == "__main__":
