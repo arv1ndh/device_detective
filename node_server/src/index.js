@@ -13,7 +13,7 @@ app.post('/devices', async (req, res) =>{
     const device = new Device(req.body)
 
     try{
-        console.log('Attempting add a device to NetworkDevices')
+        console.log('Attempting add a device')
         await device.save()
         console.log('Successfully added device')
         res.status(201).send(device)
@@ -38,24 +38,26 @@ app.get('/devices', async (req, res) =>{
 
 })
 
+//this needs to be updated
 //fetch specific type of device (mobile, tablet or pc)
-app.get('/devices/:type', async (req, res) =>{
-    const _type = req.params.type
+
+// app.get('/devices/:type', async (req, res) =>{
+//     const _type = req.params.type
    
-    try {
-        console.log('Attempting search for devices of type: '+ _type)
-        const devices = await Device.find({type: _type})
-        console.log('Successfully searched for all devices')
-        if(devices.length == 0){
-            console.log('There were no devices of type "'+_type+'".')
-            return res.status(404).send('There were no devices of type "'+_type+'".')
-        }
-        res.send(devices)
-    } catch (error) {
-        console.log('Error occured: ' + error)
-        res.status(500).send()
-    }
-})
+//     try {
+//         console.log('Attempting search for devices of type: '+ _type)
+//         const devices = await Device.find({type: _type})
+//         console.log('Successfully searched for all devices')
+//         if(devices.length == 0){
+//             console.log('There were no devices of type "'+_type+'".')
+//             return res.status(404).send('There were no devices of type "'+_type+'".')
+//         }
+//         res.send(devices)
+//     } catch (error) {
+//         console.log('Error occured: ' + error)
+//         res.status(500).send()
+//     }
+// })
 
 //check to see if there is a way to trigger a mobile app
 app.listen(port, () => {

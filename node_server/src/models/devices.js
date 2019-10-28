@@ -26,7 +26,7 @@ is_pc: Boolean,
 is_bot: Boolean,
 time: String,
 mac: String
-})
+},{collection: 'posts'})
 
 const Device = mongoose.model('Device', deviceSchema);
 
