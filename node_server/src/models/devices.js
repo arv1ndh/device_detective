@@ -3,29 +3,30 @@ const Schema = mongoose.Schema;
 const validator = require('validator')
 
 var deviceSchema = new Schema ({
-    name: String,
-    vendor: String,
-    type: String,
-    version: Number,
-    os: {
-        name: String,
-        version: Number
-    },
-    browser: {
-        name: String,
-        vendor: String,
-        engine: String,
-        version: Number,
-
-    },
-    isBot: Boolean,
-    isCrawler: Boolean,
-    hasTouchScreen: Boolean,
-    app:{
-        name: String,
-        version: Number,
-    }
-})
+  ua_string: String,
+  browser: {
+    family:  String,
+    version: Array,
+    version_string: String,
+  },
+  os: {
+    family:  String,
+    version: Array,
+    version_string: String,
+  },
+  device: {
+    family: String,
+    brand: String,
+    model: String,
+  },
+is_mobile: Boolean,
+is_tablet: Boolean,
+is_touch_capable: Boolean,
+is_pc: Boolean,
+is_bot: Boolean,
+time: String,
+mac: String
+},{collection: 'posts'})
 
 const Device = mongoose.model('Device', deviceSchema);
 
