@@ -12,14 +12,14 @@ def lambda_handler(event, context):
     table = f.read()
     f.close()
     response = dyn_client.get_item(TableName=table, Key={'macua' : {'S' : body } } )
-    try:
-        match = response['Item']
-    except:
-        expire = int(time.time() + 3600*24*30)
+    if 'Item' in response:
+        pass
+    else:
+        expire = int(time.time() + 3600*24)
         response = dyn_client.put_item(TableName=table, Item={ 'macua' : { 'S' : body }, 'ttl' : { 'N' : str(expire) } })
-        mac, delim, ua = body.partition('ua')
+        user, delim, ua = body.partition('ua')
         parsed_ua = parse(ua)
-        parsed_dict = make_dict(parsed_ua, mac)
+        parsed_dict = make_dict(parsed_ua, user)
         f = open("mongo_url.txt", "r")
         mongo_url = f.read()
         f.close()
