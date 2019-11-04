@@ -1,6 +1,6 @@
 from datetime import datetime
 
-def make_dict(parsed_ua):
+def make_dict(parsed_ua, user):
     ua_dict = {}
     ua_dict['ua_string'] = parsed_ua.ua_string
     brows_dict = {}
@@ -23,5 +23,6 @@ def make_dict(parsed_ua):
     ua_dict['is_touch_capable'] = parsed_ua.is_touch_capable
     ua_dict['is_pc'] = parsed_ua.is_pc
     ua_dict['is_bot'] = parsed_ua.is_bot
-    ua_dict['time'] = datetime.now()
+    ua_dict['time'] = str(datetime.now())
+    ua_dict['user'] = user
     return ua_dict
