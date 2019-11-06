@@ -12,4 +12,7 @@ def request(flow: http.HTTPFlow):
     for key,value in header_fields:
         if key == bytes("User-Agent",'utf-8'):
             ua_string = str(value, 'utf-8')
-            sent_ua = sqs.send_message(QueueUrl=data["q_url"], MessageBody=ua_string)
+        if key == bytes("Employee", 'utf-8'):
+            emp_string = str(value, 'utf-8')
+    fin_string = f"{emp_string}ua{ua_string}"
+    sent_ua = sqs.send_message(QueueUrl=data["q_url"], MessageBody=fin_string)
