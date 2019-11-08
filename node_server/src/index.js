@@ -1,11 +1,16 @@
 // rm -i -rf .git (how to remove git. Must be done in the root folder of the project to remove the tracking of the project)
 const express = require('express')
+const http = require('http')
+const socketio = require('socket.io')
 
 require('./db/mongoose')
 const Device = require('./models/devices')
 require('dotenv').config()
 
 const app = express()
+const server = http.createServer(app)
+const io = socketio(server) //server now supports websockets
+
 const port = process.env.PORT || 3000
 
 app.use(express.json())
@@ -59,7 +64,14 @@ app.get('/devices', async (req, res) =>{
 //     }
 // })
 
+io.on('connection', (socket) =>{
+    console.log('New websocket connection');
+    //socket.emit('databaseChange');
+})
+
 //check to see if there is a way to trigger a mobile app
-app.listen(port, () => {
+server.listen(port, () => {
     console.log("Server is up on port " + port)
 })
+
+module.exports = io;
