@@ -25,7 +25,7 @@ is_touch_capable: Boolean,
 is_pc: Boolean,
 is_bot: Boolean,
 time: String,
-mac: String
+user: String
 },{collection: 'posts'})
 
 const Device = mongoose.model('Device', deviceSchema);
