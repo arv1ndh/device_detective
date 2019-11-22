@@ -14,13 +14,16 @@ def random_macro(sequence):
     return random.choice(list(sequence))
 
 class Ua_Simulator:
-    def __init__(self, users, reqs):
-        self.pcategory = random_macro(["platforms", "browsers"])
-        self.category = random_macro(UA_DATA[self.pcategory])
+    def __init__(self, users, reqs, simul_type, additional_type):
+        self.pcategory = random_macro(["platforms", "browsers"]) if simul_type == "random" else simul_type
+        self.category = random_macro(UA_DATA[self.pcategory]) if additional_type == "random" else additional_type
         self.version = random_macro(UA_DATA[self.pcategory][self.category])
         self.ua = set()
         self.n_users = users
         self.req_count = reqs
+
+    def __repr__(self):
+        return {"pcategory": self.pcategory, "category": self.category, "version": self.version, "ua": self.ua}
 
     def unique_ua_generator(self):
         i = 0
@@ -37,16 +40,24 @@ class Ua_Simulator:
             web_site = "http://reddit.com"#random_macro(WEB_LIST)
             emp_id = random.randint(1,len(self.ua)) - 1
             ua = self.ua[emp_id]
-            print(ua)
             emp_info = f"Employee_{emp_id}"
+            print(ua, emp_info)
             url_obj = urlopen(Request(web_site, headers={"User-Agent": ua, "Employee": emp_info}))
             n_req += 1
 
 def main():
     user_count = int(input("Enter no of users: "))
     req_count = int(input("Enter total no of hits to simulate: "))
-    ua_simul_obj = Ua_Simulator(user_count, req_count)
+    simul_type = input(f"What kind of simulation do you want? [{', '.join(list(UA_DATA.keys())) + ', random'}] \nEnter choice:  ")
+    if simul_type != "random":
+        additional_type = input(f"What kind of {simul_type} do you want? [{', '.join(list(UA_DATA[simul_type].keys())) + ', random'}] \nEnter choice: ")
+    else:
+        additional_type = "random"
+    ua_simul_obj = Ua_Simulator(user_count, req_count, simul_type, additional_type)
     ua_simul_obj.unique_ua_generator()
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(ua_simul_obj.__repr__())
     ua_simul_obj.requests_sender()
         
 
