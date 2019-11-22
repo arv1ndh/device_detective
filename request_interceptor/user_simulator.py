@@ -1,3 +1,5 @@
+#env http_proxy=http://localhost:8080 python user_simulator.py
+
 import json
 import time
 import random
@@ -58,6 +60,7 @@ def main():
     import pprint
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(ua_simul_obj.__repr__())
+    return
     ua_simul_obj.requests_sender()
         
 
