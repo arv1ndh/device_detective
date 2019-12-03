@@ -23,6 +23,10 @@ class Ua_Simulator:
         self.ua = set()
         self.n_users = users
         self.req_count = reqs
+        if additional_type == "random":
+            self.r_flag = True
+        else:
+            self.r_flag = False
 
     def __repr__(self):
         return {"pcategory": self.pcategory, "category": self.category, "version": self.version, "ua": self.ua}
@@ -30,6 +34,10 @@ class Ua_Simulator:
     def unique_ua_generator(self):
         i = 0
         while i < self.n_users:
+            if self.r_flag:
+                self.category = random_macro(UA_DATA[self.pcategory])
+                self.version = random_macro(UA_DATA[self.pcategory][self.category])
+
             ua = random_macro(UA_DATA[self.pcategory][self.category][self.version])
             if ua not in self.ua:
                 self.ua.add(ua)
@@ -60,7 +68,7 @@ def main():
     import pprint
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(ua_simul_obj.__repr__())
-    return
+    #return
     ua_simul_obj.requests_sender()
         
 
